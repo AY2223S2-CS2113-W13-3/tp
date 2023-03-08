@@ -3,7 +3,6 @@ package seedu.duke;
 import seedu.duke.command.Command;
 import seedu.duke.exception.CommandNotRecognisedException;
 
-import java.util.Scanner;
 
 public class Duke {
 
