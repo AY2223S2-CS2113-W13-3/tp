@@ -5,27 +5,30 @@ import seedu.duke.exception.CommandNotRecognisedException;
 
 public class Parser {
     private final Ui ui = new Ui();
-    public void processCommand(String input) throws CommandNotRecognisedException {
-        try {
-            String action = input.split(" ")[0];
+    public boolean processCommand(String input) throws CommandNotRecognisedException {
+      //  try {
+        String action = input.split(" ")[0];
 
-            switch (action) {
-            case Command.COMMAND_BYE:
-                ui.printBye();
-                break;
-            case Command.COMMAND_HELP:
-                try {
-                    processHelpCommand(input);
-                } catch (CommandNotRecognisedException e) {
-                    ui.printCommandNotRecognised();
-                }
-                break;
-            default:
-                throw new CommandNotRecognisedException();
+        switch (action) {
+        case Command.COMMAND_BYE:
+            ui.printBye();
+            return false;
+        case Command.COMMAND_HELP:
+            try {
+                processHelpCommand(input);
+            } catch (CommandNotRecognisedException e) {
+                ui.printCommandNotRecognised();
             }
-        } catch (NullPointerException e) {
-            ui.printNoInput();
+            break;
+        default:
+            throw new CommandNotRecognisedException();
         }
+
+//        } catch (NullPointerException e) {
+//            ui.printNoInput();
+//            return true;
+//        }
+        return true;
     }
 
     private void processHelpCommand(String input) throws CommandNotRecognisedException {

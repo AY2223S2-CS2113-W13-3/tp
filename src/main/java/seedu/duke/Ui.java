@@ -23,18 +23,20 @@ public class Ui {
     public String getUserInput() {
         String input = null;
         Scanner in = new Scanner(System.in);
-        try {
+        //
+        if (in.hasNextLine()) {
+            System.out.println("ok");
             input = in.nextLine();
-        } catch (NoSuchElementException e) {
-            printNoInput();
+//        } catch (NoSuchElementException e) {
+//            printNoInput();
         }
 
         return input;
     }
 
-    public static void printNoInput() {
-        System.out.println("☹ OOPS!!! You did not enter any command");
-    }
+//    public static void printNoInput() {
+//        System.out.println("☹ OOPS!!! You did not enter any command");
+//    }
 
     public void printHelpBye() {
         System.out.println("Command 'bye': This command is used to exit the program.\n");

@@ -28,21 +28,25 @@ public class Duke {
         String userInput;
         do {
             userInput = ui.getUserInput();
-            try {
-                parser.processCommand(userInput);
-            } catch (CommandNotRecognisedException e) {
-                ui.printCommandNotRecognised();
-                ui.printDivider();
+            if (userInput == null) {
+                return;
             }
 
             try {
-                if (userInput.equals(Command.COMMAND_BYE)) {
-                    continueProgram = false;
-                }
-            }  catch (NullPointerException e) {
-                ui.printNoInput();
+                continueProgram = parser.processCommand(userInput);
+            } catch (CommandNotRecognisedException e) {
+                ui.printCommandNotRecognised();
             }
-            
+
+
+//            try {
+//                if (userInput.equals(Command.COMMAND_BYE)) {
+//                    continueProgram = false;
+//                }
+//            }  catch (NullPointerException e) {
+//                ui.printNoInput();
+//            }
+//
         } while (continueProgram);
 
     }
