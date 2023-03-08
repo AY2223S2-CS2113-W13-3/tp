@@ -26,10 +26,14 @@ public class Ui {
         try {
             input = in.nextLine();
         } catch (NoSuchElementException e) {
-            System.out.println("☹ OOPS!!! You did not enter any command");
+            printNoInput();
         }
 
         return input;
+    }
+
+    public static void printNoInput() {
+        System.out.println("☹ OOPS!!! You did not enter any command");
     }
 
     public void printHelpBye() {

@@ -1,1 +1,5 @@
-James Gosling
+help
+help --bye--   add --remove --
+help --find--find--list --help
+help --store
+bye

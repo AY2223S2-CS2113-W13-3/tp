@@ -24,6 +24,7 @@ public class Duke {
     public void run() {
         ui.printStartMessage();
 
+        boolean continueProgram = true;
         String userInput;
         do {
             userInput = ui.getUserInput();
@@ -33,7 +34,16 @@ public class Duke {
                 ui.printCommandNotRecognised();
                 ui.printDivider();
             }
-        } while (!userInput.equals(Command.COMMAND_BYE));
+
+            try {
+                if (userInput.equals(Command.COMMAND_BYE)) {
+                    continueProgram = false;
+                }
+            }  catch (NullPointerException e) {
+                ui.printNoInput();
+            }
+            
+        } while (continueProgram);
 
     }
 

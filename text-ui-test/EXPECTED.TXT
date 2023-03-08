@@ -5,5 +5,40 @@ Hello from
 | |_| | |_| |   <  __/
 |____/ \__,_|_|\_\___|
 
-What is your name?
-Hello James Gosling
+How can I help you?
+____________________________________________________________
+List of commands: 'bye', 'help', 'list', 'add', 'remove', 'find'
+For more detailed information on usage of specific command, type: help --COMMAND
+Refer to our user guide for more in-depth details on how to use our system:
+https://docs.google.com/document/d/1WKscnkYy9UqI_tsWmUHIMjgILJc6GQeFn0B1ce6qkQo/edit?usp=sharing
+____________________________________________________________
+Command 'bye': This command is used to exit the program.
+
+Command 'add': This command adds a food product to the food supply tracker.
+Format: add -n PRODUCT_NAME -e EXPIRY_DATE
+
+Command 'remove': This command removes the food product from the food supply tracker based on its index.
+Format: remove INDEX
+
+Refer to our user guide for more in-depth details on how to use our system:
+https://docs.google.com/document/d/1WKscnkYy9UqI_tsWmUHIMjgILJc6GQeFn0B1ce6qkQo/edit?usp=sharing
+____________________________________________________________
+Command 'find': This command finds the food product by its name.
+Format: find PRODUCT_NAME
+
+Command 'find': This command finds the food product by its name.
+Format: find PRODUCT_NAME
+
+Command 'list': This command lists all food products in the tracker.
+Append the filter '--fresh' for listing unexpired food products and'--expired' for listing expired food products.
+
+Refer to our user guide for more in-depth details on how to use our system:
+https://docs.google.com/document/d/1WKscnkYy9UqI_tsWmUHIMjgILJc6GQeFn0B1ce6qkQo/edit?usp=sharing
+____________________________________________________________
+☹ OOPS!!! I'm sorry, but I don't know what that command means :-(
+List of commands: 'bye', 'help', 'list', 'add', 'remove', 'find'
+For more detailed information on usage of specific command, type: help --COMMAND
+____________________________________________________________
+Bye! Hope to see you again.
+____________________________________________________________
+
