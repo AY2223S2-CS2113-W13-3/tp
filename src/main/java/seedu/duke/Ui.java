@@ -1,5 +1,6 @@
 package seedu.duke;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Ui {
@@ -20,9 +21,13 @@ public class Ui {
     }
 
     public String getUserInput() {
-        String input;
+        String input = null;
         Scanner in = new Scanner(System.in);
-        input = in.nextLine();
+        try {
+            input = in.nextLine();
+        } catch (NoSuchElementException e) {
+            System.out.println("☹ OOPS!!! You did not enter any command");
+        }
 
         return input;
     }
