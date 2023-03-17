@@ -17,7 +17,7 @@ public class RemoveCommand extends Command {
             throw new DukeException();
         }
         int deleteItem = Integer.parseInt(index.trim()) - 1;
-        if (deleteItem >= foodlist.getNumberOfFood() || deleteItem < 1) {
+        if (deleteItem >= foodlist.getNumberOfFood() || deleteItem < 0) {
             throw new DukeException();
         }
         String foodName = foodlist.getFood(deleteItem).getName();
