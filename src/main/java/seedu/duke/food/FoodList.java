@@ -13,6 +13,7 @@ public class FoodList {
     }
 
     public void removeFood(int index) {
+        assert index > 0: "Index of food entered must be larger or equal to 1";
         foodList.remove(index);
     }
 
