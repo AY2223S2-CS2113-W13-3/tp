@@ -6,13 +6,17 @@ import java.time.format.DateTimeFormatter;
 public class Food {
     private String name;
     private String expiryDate;
-
-    //private int quantity;
+    private int quantity;
+    
     public Food(String name, String expiryDate) {
         this.name = name;
         this.expiryDate = expiryDate;
     }
-
+    
+    public foodQuantity(int quantity){
+        this.quantity=quantity;
+    }
+    
     public LocalDate getDate() {
         return LocalDate.now();
     }
@@ -28,7 +32,10 @@ public class Food {
     public String getExpiryDate() {
         return expiryDate;
     }
-
+    
+    public int getFoodQuantity(){
+        return quantity;
+    }
     public String printFoodDetails() {
         return "Product Name: " + getName() + "\n" + "Expired by: " + getExpiryDate();
     }
