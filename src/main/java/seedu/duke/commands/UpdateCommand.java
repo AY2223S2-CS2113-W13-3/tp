@@ -15,10 +15,7 @@ public class UpdateCommand extends Command{
     String index;
     String[] flags;
 
-    public UpdateCommand(String arguments) throws DukeException {
-        if(!arguments.contains(FLAG_SEPARATOR)) {
-            throw new DukeException("No field to update is specified");
-        }
+    public UpdateCommand(String arguments) {
         String[] details = arguments.split(FLAG_SEPARATOR);
         this.index = details[0];
         this.flags = Arrays.copyOfRange(details, 1, details.length);
@@ -35,14 +32,8 @@ public class UpdateCommand extends Command{
         Food currentFood = foodList.getFood(index);
 
         for (String flag: flags) {
-            String[] flagParts = flag.split(" ");
-
-            if (flagParts.length == 1) {
-                String invalidFlagName = flagParts[0];
-                throw new InvalidFlagException(invalidFlagName);
-            }
-            String flagName = flagParts[0].trim().toLowerCase();
-            String flagValue = flagParts[1].trim().toLowerCase();
+            String flagName = flag.split(" ")[0].trim().toLowerCase();
+            String flagValue = flag.split(" ")[1].trim().toLowerCase();
             try {
                 switch (flagName) {
                 case "n":
