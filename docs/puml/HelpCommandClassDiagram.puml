@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-Parser ..> HelpCommand
+Parser --> HelpCommand
 Parser --> Command
 class Parser {
     +parse(String: userInput): Command
@@ -21,10 +21,11 @@ class CommandResult {
 
 Command <|-- HelpCommand
 class HelpCommand {
-    -filters: String[]
-    +HelpCommand(String: UserInput)
-    +getFilters(): String[]
+    -filters: HashSet<String>
+    -appendMessage(String: printToUser, String: filter): String
+    +HelpCommand(String: userInput)
     +execute(FoodList: foodList): CommandResult
+
 
 }
 

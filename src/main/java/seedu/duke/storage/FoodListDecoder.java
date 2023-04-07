@@ -48,6 +48,7 @@ public class FoodListDecoder {
     /**
      * Decodes {@code encodedFood} into a {@code Food}.
      */
+
     private static Food decodeFoodFromString(String encodedFood) throws StorageOperationException,
             ReadStorageFileErrorException, EmptyStorageFileException {
 
@@ -164,7 +165,5 @@ public class FoodListDecoder {
         }
         return false;
     }
-
-
 
 }

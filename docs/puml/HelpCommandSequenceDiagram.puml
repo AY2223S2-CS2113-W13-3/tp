@@ -13,34 +13,35 @@ hc --> Parser
 deactivate hc
 deactivate Parser
 
-create Command as c
-Duke -> c : execute(foodList)
-activate c
 
-c -> hc : execute(foodList)
+
+Duke -> hc : execute(foodList)
 activate hc
-hc -> hc : isHelpOrEmpty(filters[0])
+
+alt filter size <= 1
+
+else
+loop all filters
+hc -> hc : appendMessage(printToUser, filter)
 activate hc
 hc --> hc
 deactivate hc
+end
+end
 
 create CommandResult as cr
 hc -> cr : CommandResult(printToUser)
 activate cr
+deactivate hc
+destroy hc
+
+Duke -> cr: printResult()
 cr->System: out.println(feedbackToUser)
 
 
 System --> cr
-cr --> hc
+cr --> Duke
 deactivate cr
 destroy cr
-hc --> c
-deactivate c
-destroy c
-hc --> Parser
-deactivate hc
-destroy hc
-Parser --> Duke
-deactivate Parser
 
 @enduml

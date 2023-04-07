@@ -1,25 +1,73 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
+participant ":Duke"
+participant ":AddCommand"
+participant ":foodList"
 
-participant Duke
-participant AddCommand
-participant FoodList as foodList
-
-Duke -> AddCommand: execute(arguments)
-activate AddCommand
-
-AddCommand -> AddCommand: splitDetails(details)
-activate AddCommand #DarkSalmon
-AddCommand --> AddCommand: foodDetails
+":Duke" -> ":AddCommand": execute(arguments)
+activate ":AddCommand"
+":AddCommand" -> ":AddCommand": splitDetails(details)
+activate ":AddCommand" #DarkSalmon
+":AddCommand" --> ":AddCommand": foodDetails
 deactivate
 
-foodList <- AddCommand: addFood(newFood)
-system <-- foodList:
-Duke <-- AddCommand: new CommandResult(ADD_MESSAGE)
+alt check date format
+break the date format is invalid
+create ":CommandResult"
+":AddCommand" -> ":CommandResult": new(INVALID_DATE_MESSAGE)
+activate ":CommandResult"
+":CommandResult" -> System: printResult()
 deactivate
+destroy ":CommandResult"
+end
 
-destroy AddCommand
+break date falls into the special case 02/29 with non-leap year
+create ":CommandResult"
+":AddCommand" -> ":CommandResult": new(INVALID_DATE_MESSAGE)
+activate ":CommandResult"
+":CommandResult" -> System: printResult()
+deactivate
+destroy ":CommandResult"
+
+end
+
+activate ":AddCommand"
+break date is before the current date
+create ":CommandResult"
+":AddCommand" -> ":CommandResult": new(INVALID_DATE_MESSAGE)
+activate ":CommandResult"
+":CommandResult" -> System: printResult()
+deactivate
+destroy ":CommandResult"
+end
+
+activate ":AddCommand"
+alt foodDetails.length == 2
+":foodList" <- ":AddCommand": addFood(new Food(name,date))
+
+else foodDetails.length == 3 and details contains quantity
+":foodList" <- ":AddCommand": addFood(new Food(name,date,quantity))
+else foodDetails.length == 3 and details does not contain quantity
+":foodList" <- ":AddCommand": addFood(new Food(name,date,category))
+else foodDetails.length == 4 and details contains unit
+":foodList" <- ":AddCommand": addFood(new Food(name,date,quantity,unit))
+else foodDetails.length == 4 and details does contain unit
+":foodList" <- ":AddCommand": addFood(new Food(name,date,quantity, category))
+else foodDetails.length == 5
+":foodList" <- ":AddCommand": addFood(new Food(name,date,quantity,unit,category))
+end
+participant ":CommandResult"
+create ":CommandResult"
+":AddCommand" -> ":CommandResult": new(ADD_MESSAGE)
+activate ":CommandResult"
+":CommandResult" -> System: printResult()
+deactivate
+destroy ":CommandResult"
+
+end
+
+destroy ":AddCommand"
 
 @enduml
 

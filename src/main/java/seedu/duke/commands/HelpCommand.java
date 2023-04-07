@@ -15,7 +15,7 @@ public class HelpCommand extends Command {
             + "\nFor more detailed information on usage of specific command, type: help --COMMAND";
     private static final String DEFAULT_HELP_MESSAGE = "Refer to our user guide for more in-depth details on"
             + " how to use Food Supply Tracker:"
-            + "\nhttps://ay2223s2-cs2113-w13-3.github.io/tp/UserGuide.html\n";
+            + "\nhttps://ay2223s2-cs2113-w13-3.github.io/tp/UserGuide.html";
 
     private static final String HELP_ADD = "Command 'add': This command adds a food product to the food supply tracker."
             + "\nFormat: add -n PRODUCT_NAME -e EXPIRY_DATE {-c category} {-q QUANTITY -u UNIT}"
@@ -41,12 +41,12 @@ public class HelpCommand extends Command {
 
     private static final String HELP_UPDATE = "Command 'update': This command allows users to update the name, "
             + "expiry date, quantity and units based on the index in the food list."
-            + "\n All attributes: -n for Name, -e for ExpiryDate, -c for Category, -q for Quantity and -u for Units"
-            + "can be updated with this command.";
+            + "\nAll attributes: -n for Name, -e for ExpiryDate, -c for Category, -q for Quantity and -u for Units"
+            + " can be updated with this command.";
 
     private static final String HELP_EXIT = "Command 'exit': This command will save the food list in an external file"
             + "before exiting the program.";
-    private static final String REPORT_INVALID_INPUT = "Opps! The command %s is not valid.";
+    private static final String REPORT_INVALID_INPUT = "Opps! The command '%s' is not valid.";
 
     private final HashSet<String> filters = new LinkedHashSet<>();
 
@@ -65,9 +65,9 @@ public class HelpCommand extends Command {
     }
 
     /**
-     * This method decides whether a filtered command is valid or not and append it to the message. Valid commands will
-     * show help messages for their usage while invalid command will be reported back to the user as non-valid commands.
-     * Empty command or 'help' will be ignored.
+     * This method loops through all the filtered command words and pass them to the method <code>appendMessage()</code>
+     * (unless the command word is help or empty, in which case will be ignored).
+     * After all the filtered words are processed, this method will  append the default help message at the end.
      *
      * @param foodList the food list
      * @return a CommandResult object to display the successful message
@@ -75,44 +75,53 @@ public class HelpCommand extends Command {
     @Override
     public CommandResult execute(FoodList foodList) {
         String printToUser = "";
-        if (filters.size() <= 1) {
-            printToUser = SHOW_ALL_COMMANDS + '\n' + DEFAULT_HELP_MESSAGE;
-            return new CommandResult(printToUser);
-        }
-
-        for (String f : filters) {
-            if (isHelpOrEmpty(f)) {
-                continue;
-            }
-            printToUser = addNewLine(printToUser);
-            switch (f) {
-            case AddCommand.COMMAND_WORD:
-                printToUser = printToUser.concat(HELP_ADD);
-                break;
-            case ListCommand.COMMAND_WORD:
-                printToUser = printToUser.concat(HELP_LIST);
-                break;
-            case RemoveCommand.COMMAND_WORD:
-                printToUser = printToUser.concat(HELP_REMOVE);
-                break;
-            case FindCommand.COMMAND_WORD:
-                printToUser = printToUser.concat(HELP_FIND);
-                break;
-            case UpdateCommand.COMMAND_WORD:
-                printToUser = printToUser.concat(HELP_UPDATE);
-                break;
-            case ExitCommand.COMMAND_WORD:
-                printToUser = printToUser.concat(HELP_EXIT);
-                break;
-            default:
-                printToUser = printToUser.concat(String.format(REPORT_INVALID_INPUT, f));
-                break;
+        if (filters.size() > 1) {
+            for (String f : filters) {
+                if (!isHelpOrEmpty(f)) {
+                    printToUser = appendMessage(printToUser, f);
+                }
             }
         }
-
         printToUser = addNewLine(printToUser);
         printToUser = printToUser.concat(SHOW_ALL_COMMANDS + '\n' + DEFAULT_HELP_MESSAGE);
         return new CommandResult(printToUser);
+    }
+
+    /**
+     * This method decides whether a filtered command is valid or not and append it to the message. Valid commands will
+     * show help messages for their usage while invalid command will be reported back to the user as non-valid commands.
+     *
+     * @param printToUser  the message to append
+     * @param f            the command word
+     * @return a CommandResult object to display the successful message
+     */
+    private String appendMessage(String printToUser, String f) {
+        printToUser = addNewLine(printToUser);
+        switch (f) {
+        case AddCommand.COMMAND_WORD:
+            printToUser = printToUser.concat(HELP_ADD);
+            break;
+        case ListCommand.COMMAND_WORD:
+            printToUser = printToUser.concat(HELP_LIST);
+            break;
+        case RemoveCommand.COMMAND_WORD:
+            printToUser = printToUser.concat(HELP_REMOVE);
+            break;
+        case FindCommand.COMMAND_WORD:
+            printToUser = printToUser.concat(HELP_FIND);
+            break;
+        case UpdateCommand.COMMAND_WORD:
+            printToUser = printToUser.concat(HELP_UPDATE);
+            break;
+        case ExitCommand.COMMAND_WORD:
+            printToUser = printToUser.concat(HELP_EXIT);
+            break;
+        default:
+            printToUser = printToUser.concat(String.format(REPORT_INVALID_INPUT, f));
+            break;
+        }
+        assert !printToUser.equals("");
+        return printToUser;
     }
 
     /**

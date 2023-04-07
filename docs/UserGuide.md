@@ -7,13 +7,13 @@ Food Supply Tracker (FSP) is a desktop app for managing food supplies, optimized
 ---
 + [Quick Start](#quick-start)
 + [Features](#features)
-  + [Viewing help: `help`](#viewing-help--help)
-  + [Adding a food product: `add`](#adding-a-food-product--add)
-  + [Listing all food products: `list`](#listing-all-food-products--code-list-code)
-  + [Removing a food product: `remove`](#removing-a-food-product--remove) 
-  + [Finding food products by name: `find`](#finding-food-products-by-name--code-find-code)
-  + [Update food products by index: `update`](#updating-food-products-by-index--code-update-code)
-  + [Exit FSP Program: `exit`](#exiting-FSP-code-exit-code)
+  + [Viewing help: `help`](#viewing-help)
+  + [Adding a food product: `add`](#adding-a-food-product)
+  + [Listing all food products: `list`](#listing-all-food-products)
+  + [Removing a food product: `remove`](#removing-a-food-product) 
+  + [Finding food products by name: `find`](#finding-food-products-by-name)
+  + [Update food products by index: `update`](#updating-food-products-by-index)
+  + [Exit FSP Program: `exit`](#exiting-fsp)
 + [FAQ](#faq)
 + [Command Summary](#command-summary)
 
@@ -34,12 +34,13 @@ Food Supply Tracker (FSP) is a desktop app for managing food supplies, optimized
 
 ##### Quick notes about the command format:
 1. Words in UPPER_CASE are the parameters to be supplied by the user.
-2. Optional flags are put in curly braces.
-3. A parameter is expected only once in the command. If you specify it multiple times, it will be deemed as invalid command.
-4. Extraneous parameters for commands that do not take in parameters (such as help, list, exit and clear) will be ignored.
+2. Parameters in the `{ }` are optionals, and `{ }` the bracket characters cannot be included in the command line.
+3. Optional flags are put in curly braces.
+4. parameter is expected only once in the command. If you specify it multiple times, it will be deemed as invalid command.
 
-### Viewing help: `help`
-Shows a message explaining how to access the help page and the command specified.
+### Viewing help
+
+`help`- Show a message explaining how to access the help page and the command specified.
 
 - When a filter (prefix <code>--</code>) is applied, the help message will display the helper for the specified command.
 - By default, all available commands and the link to the user guide would be displayed.
@@ -69,32 +70,39 @@ https://docs.google.com/document/d/1WKscnkYy9UqI_tsWmUHIMjgILJc6GQeFn0B1ce6qkQo/
 Mar 31, 2023 1:26:06 PM seedu.duke.Duke run
 INFO: Processed user command successfully
 ______________________________
-
 ```
-### Adding a food product: `add`
-Add a food product to the list of food items.
 
-Format: `add -n FOOD_NAME -e DD/MM/YYYY {-c CATEGORY} {-q QUANTITY -u UNITS}`
+### Adding a food product 
 
-* `FOOD_NAME` can be in a natural language format but should not contain `-`.
-* `{-c CATEGORY}`and`{-q QUANTITY -u UNITS}` are optional.
-  * For category, we have `fruit, vegetable, meat, dairy, grain, seafood, beverage, others`.
-  * Any other category will be classified as `unknown category`.
-  * Quantity and units must be added together.
-    * E.g. `add -n milk -e 21/03/2025 -q 10 -u packets`
+`add` - Add a food product to the list of food items.
 
+Format: `add -n FOOD_NAME -e DD/MM/YYYY {-c CAT -q QUANTITY -u UNITS}`
 
-Example of usage:
+* The parameter cannot contain any punctuations, or else it will return as incorrect command.
+* `-n FOOD_NAME` and `-e DD/MM/YYYY` are compulsory.
+* `-c CAT`and`-q QUANTITY -u UNITS` are optional.
+  * However, `-u UNIT` cannot add alone,
+    * For example, a proper command can be `add -n milk -e 21/03/2025 -q 10.0`. 
+However, it cannot be `add -n milk -e 21/03/2025 -u packets`
+* For `category`, we only have `FRUIT, VEGETABLE, MEAT, DAIRY, GRAIN, SEAFOOD, BEVERAGE, OTHERS`
+any other category or no category added will be deemed as `OTHERS`.
+* For `unit`, we only have `mg`, `g`, `kg`, `unit`,`ml`,`l`,`serving`,`packet` and `box`.
+Any other unit or no unit added will be deemed as `unit`.
 
-Input:
+Examples of usage:
+
+<bold>Input:</bold>
 
 `add -n milk -e 21/03/2025 -c dairy -q 10 -u packets`
 
-Output:
+Output: 
+
+(The product is added on 06/04/2023, thus it shows 715 days left. The display of remaining freshness date will vary,
+based on your current date)
 ```
 ______________________________
-milk
-       Expiry date: 21/03/2025
+milk (fresh) 
+       Expiry date: 21/03/2025 (715 days left)
        Category: dairy
        Remaining quantity: 10.0 packets
 
@@ -102,8 +110,23 @@ I have added this product! :)
 ______________________________
 ```
 
-### Listing all food products: <code>list</code>
-List all food products available in the tracker regardless of expiry status.
+<bold>Input:</bold>
+
+`add -n mike's milk -e 21/03/2025 -c dairy -q 10 -u packets`
+
+Output:
+
+```
+______________________________
+Oops! Incorrect command format. Type 'help' to see more!!
+______________________________
+
+```
+
+
+### Listing all food products
+
+`list` - List all food products available in the tracker regardless of expiry status.
 
 - All food products will be listed with index, followed by the number of food products in the list.
 
@@ -135,8 +158,9 @@ ______________________________
 
 
 
-### Removing a food product: `remove`
-Remove a food product from the list based on its index.
+### Removing a food product
+
+`remove` - Remove a food product from the list based on its index.
 
 Format: `remove INDEX`
 
@@ -158,8 +182,9 @@ There is/are now 0 item(s) in the list.
 ______________________________
 ```
 
-### Finding food products by name: <code>find</code>
-List all food product with matching name.
+### Finding food products by name
+
+`find` - List all food product with matching name.
 
 Format: <code>find FOOD_NAME {-fresh} {-expired}</code>
 
@@ -193,8 +218,9 @@ ______________________________
 Found 2 of food items
 ______________________________
 ```
-### Updating food products by index: <code>update</code>
-Change any attribute based on the index in the list.
+### Updating food products by index
+
+`update` - Change any attribute based on the index in the list.
 
 * Multiple attributes can be changed at once by appending the identifier at the back.
 
@@ -215,8 +241,9 @@ Blueberry
 ______________________________
 ```
 
-### Exiting FSP: <code>exit</code>
-This command will save the food list in an external file before closing the program.
+### Exiting FSP
+
+`exit` - This command will save the food list in an external file before closing the program.
 
 ## FAQ
 
@@ -254,8 +281,14 @@ This command will save the food list in an external file before closing the prog
 
 * help - `help {--COMMAND_WORD}`
   * e.g. <code>help --update --add</code> 
-* Add - `add -n FOOD_NAME -e DD/MM/YYYY {-c CAT} {-q QUANTITY -u UNIT}`
-  * e.g. <code>add -n Bob's Red Mill Granola -e 20/05/2025 -c others -q 10 -u packets</code>
+* Add - `add -n FOOD_NAME -e DD/MM/YYYY {-c CAT -q QUANTITY -u UNIT}`
+  * All possible add command format:
+    * e.g. `add -n Red Mill Granola -e 20/05/2025`
+    * e.g. `add -n Red Mill Granola -e 20/05/2025 -c others`
+    * e.g. `add -n Red Mill Granola -e 20/05/2025 -q 10`
+    * e.g. `add -n Red Mill Granola -e 20/05/2025 -c others -q 10`
+    * e.g. `add -n Red Mill Granola -e 20/05/2025 -q 10 -u packets`
+    * e.g. `add -n Red Mill Granola -e 20/05/2025 -c others -q 10 -u packets`
 * List - `list`
 * Remove - `remove INDEX_NUMBER`
   * e.g. remove 1

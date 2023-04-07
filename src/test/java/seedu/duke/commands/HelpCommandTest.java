@@ -19,7 +19,7 @@ class HelpCommandTest {
             + "\nFor more detailed information on usage of specific command, type: help --COMMAND";
     private static final String DEFAULT_HELP_MESSAGE = "Refer to our user guide for more in-depth details on"
             + " how to use Food Supply Tracker:"
-            + "\nhttps://ay2223s2-cs2113-w13-3.github.io/tp/UserGuide.html\n";
+            + "\nhttps://ay2223s2-cs2113-w13-3.github.io/tp/UserGuide.html";
     private FoodList foodList;
 
     @Test

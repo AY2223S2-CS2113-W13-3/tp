@@ -1,0 +1,48 @@
+@startuml
+title Food Supply Tracker
+
+actor User
+participant ":Duke"
+participant ":Ui"
+participant ":Parser"
+participant ":Command"
+participant ":storageFile"
+
+alt not exit
+User -> ":Duke": run()
+activate ":Duke"
+":Duke" -> ":Ui": showWelcomeMessage()
+activate ":Ui"
+":Ui" --> ":Duke":
+deactivate ":Ui"
+User -> ":Duke": user input
+":Duke" -> ":Ui": readCommand()
+":Ui" --> ":Duke":fullCommand
+
+":Duke" -> ":Duke": processCommand(fullCommand)
+activate ":Duke" #DarkSalmon
+":Duke" -> ":Parser" : parse(fullCommand)
+activate ":Parser"
+":Parser" --> ":Command": new Command()
+deactivate ":Parser"
+destroy ":Parser"
+":Duke" -> ":Command": execute(userInput)
+activate ":Command"
+
+participant ":CommandResult"
+":Command" --> ":CommandResult": new CommandResult()
+deactivate ":Command"
+destroy ":Command"
+activate ":CommandResult"
+":Duke"->":CommandResult": printResult()
+":CommandResult" --> ":Duke"
+deactivate ":CommandResult"
+destroy  ":CommandResult"
+":Duke" -> ":storageFile": save(foodList)
+":Duke" --> ":Duke": command.exit()
+deactivate ":Duke"
+
+
+end
+
+@enduml

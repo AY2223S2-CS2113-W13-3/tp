@@ -35,11 +35,12 @@ public class FoodList {
     public void updateFood(int index, Food updatedItem) {
         foodList.set(index, updatedItem);
     }
+
     public int getNumberOfFood() {
         return foodList.size();
     }
 
-    public ArrayList<Food> getFoodList(){
+    public ArrayList<Food> getFoodList() {
         return foodList;
     }
 
@@ -51,11 +52,11 @@ public class FoodList {
         }
     }
 
-    public FoodList findFood(String term, String ...flags) throws DukeException{
+    public FoodList findFood(String term, String... flags) throws DukeException {
         FoodList result = new FoodList();
 
         foodItemLoop:
-        for (Food foodItem: foodList) {
+        for (Food foodItem : foodList) {
             String foodItemName = foodItem.getName();
             LocalDate expiryDate = foodItem.parseExpiryDate();
             String category = foodItem.getCategoryString(foodItem.getCategory());
@@ -63,23 +64,23 @@ public class FoodList {
 
             if (hasTerm) {
                 // Filter by flags
-                for (String flag: flags) {
+                for (String flag : flags) {
                     String flagName = flag.trim().split(" ")[0];
 
                     switch (flagName) {
                     case "fresh":
-                            boolean isFresh = expiryDate.isAfter(LocalDate.now());
-                            if (!isFresh) {
-                                continue foodItemLoop;
-                            }
-                            break;
+                        boolean isFresh = expiryDate.isAfter(LocalDate.now());
+                        if (!isFresh) {
+                            continue foodItemLoop;
+                        }
+                        break;
 
                     case "expired":
-                            boolean isExpired = expiryDate.isBefore(LocalDate.now());
-                            if (!isExpired) {
-                                continue foodItemLoop;
-                            }
-                            break;
+                        boolean isExpired = expiryDate.isBefore(LocalDate.now());
+                        if (!isExpired) {
+                            continue foodItemLoop;
+                        }
+                        break;
                     case "c":
                         String flagValue = flag.split(" ")[1].toLowerCase().trim();
                         if (!flagValue.equals(category)) {
@@ -97,6 +98,28 @@ public class FoodList {
         return result;
     }
 
+    public void sortFoodList () throws DukeException {
+        //FoodList sortedFoodList = null;
+        for (int i = 0; i < getNumberOfFood(); i++){
+            for(int j = 0; j < getNumberOfFood(); j ++){
+                long day1 = foodList.get(i).getDaysExpire();
+                long day2 = foodList.get(j).getDaysExpire();
+                if(day1 < day2){
+                    Food temp = foodList.get(i);
+                    foodList.set(i, foodList.get(j));
+                    foodList.set(j, temp);
+                }
+            }
+        }
+    }
+
+    public void clearFoodList() {
+        int totalNumberFood = getNumberOfFood();
+        for(int i = totalNumberFood-1; i >= 0; i--){
+            removeFood(0);
+        }
+    }
+
     @Override
     public String toString() {
         int index = 1;
@@ -108,4 +131,5 @@ public class FoodList {
         }
         return output.toString();
     }
+
 }

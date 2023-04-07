@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant Duke
+participant RemoveCommand
+
+
+Duke -> RemoveCommand : execute(arguments)
+activate RemoveCommand
+
+RemoveCommand -> FoodList : getFood(index)
+activate FoodList
+
+FoodList -> FoodList : getName()
+
+FoodList --> RemoveCommand : foodName
+
+RemoveCommand --> Duke : new CommandResult()
+
+@enduml

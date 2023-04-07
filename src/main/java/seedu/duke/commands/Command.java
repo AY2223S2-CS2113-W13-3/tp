@@ -3,6 +3,9 @@ package seedu.duke.commands;
 import seedu.duke.exceptions.DukeException;
 import seedu.duke.food.FoodList;
 
+/**
+ * Represents a command class
+ */
 public abstract class Command {
 
     protected Command() {

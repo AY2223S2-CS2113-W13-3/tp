@@ -1,9 +1,42 @@
 # Developer Guide
 
++ [Acknowledgement](#acknowledgement)
++ [Design](#design)
+  + [Architecture Design Diagram](#architecture-design-diagram)
+  + [UML Sequence Diagram](#uml-sequence-diagram)
++ [Implementation](#implementation)
+  + [Add feacture](#add-feature)
+  + [Remove feature](#remove-feature)
+  + [Find feature](#find-feature)
+  + [List feature](#list-feature)
+  + [help feature](#help-feature)
++ [Appendix: Requirements](#appendix--requirements)
+  + [Product Scope](#product-scope)
+  + [User Stories](#user-stories)
+
+## Acknowledgement
+
+The documentation and organisation of our project follows the recommended format in [SE-Education](http://se-education.org/addressbook-level3/DeveloperGuide.html).
+Part of the code is inspired by the [addressbook-level3](https://github.com/se-edu/addressbook-level3)
+
 ## Design
+### Architecture Design Diagram
 
-{To Be Added}
+![Diagram](images/Architecture_Diagram.png)
 
+Main components of the architecture
+
+`Duke` is the entry point of the application. It is responsible for, 
++ At app launch: Initializes the components in the correct sequence, and connects them up with each other.
++ At shut down: Shuts down the components
+
+The rest:
++ Ui: The UI of the App. This part displays the messages to the user.
++ Command: The command executor.
++ Storage: Reads data from, and writes data to, the hard disk.
+
+### UML Sequence Diagram
+![SequenceDiagram](images/SequenceDiagram-Food_Supply_Tracker.png)
 ---
 
 ## Implementation
@@ -18,8 +51,12 @@ It is also facilitated by `Foodlist` Class, using `addFood` method of `FoodList`
 The add feature implementation is as follows:
 1. New AddCommand object is created by passing in a String containing food details
 2. `splitDetails` is called to split the string using different flags `-n`,`-e`,`-c`,`-q`,`-u`;
-3. Create a new `Food` object and use `addFood` to add the new food into the food list
-4. Return a `CommandResult` to show the successful message to the user
+3. After obtaining an array of String, it will check the correctness of each parameter. It will specially check the date 
+and the quantity. If the `date` is not a valid date (e.g. 02/15/2024)or it is before the current date
+(meaning expired food), it will return a `CommandResult` object, and `Duke` will continue print the command result.
+4. If there is no error, it will create a new `Food` object, based on the parameter number contained in the array.
+5. `addFood` is called to add the new food into the food list
+6. Return a `CommandResult` to show the successful message to the user
 
 
 **Class Diagram**
@@ -45,8 +82,13 @@ The `removeFood` method implementation is as follows:
 7. This method will return an object called `CommandResult` and pass `feedbackToUser` as its argument.
 8. `Duke` will subsequently call `printResult` method from `CommandResult`.
 
-Class Diagram (to be added)
-Object Diagram (to be added)
+**Class Diagram**
+
+![ClassDiagram](images/RemoveCommandClassDiagram.png)
+
+**Object Diagram**
+
+![ClassDiagram](images/RemoveCommandSequenceDiagram.png)
 
 ### Find feature
 The find command is implemented using a `FindCommand` class which
@@ -96,12 +138,18 @@ The help command is implemented using a `HelpCommand` class which utilizes `COMM
 attributes of all other commands within the `commands` package. 
 
 The help command is implemented as follows:
-1. New `HelpCommand` object is created by passing in a String containing arguments from `Parser`.
+1. When `Duke` reads the user input, it calls the method `parse` from the `Parser` class.
+2. The `parse` method process which command word is being queried and calls the constructor class based 
+on the command word.
+3. In the case where `help` is the command word, a new `HelpCommand` object is created with the rest of the user input 
+being the arguments for the constructor.
 2. The constructor `HelpCommand` will split the arguments based on the `--` regex and store them in an array of
 strings called `filters`.
-3. The method `execute` of `Command` class will then be called all the way from `Duke` with `filters` as its argument. 
-4. This method decides what to append to the string `printToUser` as specified by the `filters`. 
-5. After looping through all the `filters`, this method will return an object called `CommandResult` and pass
+3. The method `execute` of `Command` class will then be called all the way from `Duke` which will be overriden by the 
+same method in `HelpCommand`.
+4. This method calls the private method `appendMessage` which decides what to append to the string `printToUser` as 
+specified by `filter`. 
+5. After looping through all the `filter`, this method will return an object called `CommandResult` and pass
 `printToUser` as its argument.
 6. `Duke` will then call `printResult` method from `CommandResult` which will print the necessary message.
 
@@ -114,7 +162,7 @@ strings called `filters`.
 
 ---
 ## Appendix: Requirements
-# Product scope
+# Product Scope
 **Project Direction**
 - Food Supplies Tracker: Main function is to track expiry dates 
 and storage area of foods as to minimise food shortage.
@@ -135,9 +183,18 @@ and storage area of foods as to minimise food shortage.
 
 Currently, the following functionality was implemented:
 
-`add -n PRODUCT_NAME -e EXPIRY_DATE {-p QUANTITY}`
+`add -n PRODUCT_NAME -e EXPIRY_DATE `
 
-`add -e EXPIRY_DATE -n PRODUCT_NAME {-p QUANTITY}`
+`add -n PRODUCT_NAME -e EXPIRY_DATE -c CATEGORY `
+
+`add -n PRODUCT_NAME -e EXPIRY_DATE -p QUANTITY `
+
+`add -n PRODUCT_NAME -e EXPIRY_DATE -c CATEGORY -p QUANTITY`
+
+`add -n PRODUCT_NAME -e EXPIRY_DATE -p QUANTITY -u UNIT`
+
+`add -n PRODUCT_NAME -e EXPIRY_DATE -c CATEGORY -p QUANTITY -u UNIT`
+
 
 `find {PRODUCT_NAME}`
 
@@ -146,8 +203,6 @@ Currently, the following functionality was implemented:
 `find {PRODUCT_NAME} -expired`
 
 `help {--COMMAND_WORD}`
-
-The next possible flag to implement will be `-c` which stands for `categories`
 
 # User stories
 

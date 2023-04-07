@@ -50,7 +50,7 @@ class AddCommandTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate expiryDate = LocalDate.parse(date, formatter);
         boolean expected = true;
-        assertEquals(expected, addFood.isValidDate(expiryDate));
+        assertEquals(expected, addFood.isTheDateAfterCurrentDate(expiryDate));
     }
 
     @Test
@@ -61,7 +61,7 @@ class AddCommandTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate expiryDate = LocalDate.parse(date, formatter);
         boolean expected = false;
-        assertEquals(expected, addFood.isValidDate(expiryDate));
+        assertEquals(expected, addFood.isTheDateAfterCurrentDate(expiryDate));
     }
 
 }

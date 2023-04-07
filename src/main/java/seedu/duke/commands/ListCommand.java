@@ -1,5 +1,6 @@
 package seedu.duke.commands;
 
+import seedu.duke.exceptions.DukeException;
 import seedu.duke.food.FoodList;
 
 public class ListCommand extends Command {
@@ -9,10 +10,10 @@ public class ListCommand extends Command {
     public static final String REPORT_NUMBER_OF_FOOD_BACK = " food products in your lists.";
 
     @Override
-    public CommandResult execute(FoodList foodList) {
+    public CommandResult execute(FoodList foodList) throws DukeException {
         String printToUser = "";
+        foodList.sortFoodList();
         int numberOfFood = foodList.getNumberOfFood();
-        assert numberOfFood >= 0;
 
         if (numberOfFood > 0) {
             assert foodList instanceof FoodList && !foodList.getFoodList().isEmpty() :

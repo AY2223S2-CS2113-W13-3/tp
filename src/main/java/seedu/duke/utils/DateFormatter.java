@@ -1,7 +1,6 @@
 package seedu.duke.utils;
 
 import seedu.duke.exceptions.DukeException;
-import seedu.duke.exceptions.IllegalValueException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,18 +8,16 @@ import java.time.format.DateTimeParseException;
 
 
 public class DateFormatter {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final String INVALID_DATE_PROVIDED = "Invalid date provided";
 
-    public void checkValidDate(String date) throws DukeException {
+    public static final String DD_MM_YYYY = "dd/MM/yyyy";
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DD_MM_YYYY);
+    public static LocalDate parse(String date) throws DukeException {
         try {
-            LocalDate expiryDate = LocalDate.parse(date, formatter);
-            if (expiryDate.isBefore(LocalDate.now())){
-                throw new IllegalValueException("Please input a valid  date :<");
-            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DD_MM_YYYY);
+            return LocalDate.parse(date, formatter);
         } catch (DateTimeParseException e) {
-            throw new IllegalValueException("Please input a valid  date :<\"");
+            throw new DukeException(INVALID_DATE_PROVIDED);
         }
     }
-
-
 }

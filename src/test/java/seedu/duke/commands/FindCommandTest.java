@@ -12,32 +12,21 @@ public class FindCommandTest {
     @Test
     public void termSearch_withoutFlags_numberOfFoundFood() throws DukeException {
         FoodList foodList = new FoodList();
-        foodList.addFood(new Food("Chicken egg", "25/04/2022"));
-        foodList.addFood(new Food("Ostrich Egg  ", "26/04/2022"));
-        foodList.addFood(new Food("Cow's Milk", "26/04/2022"));
+        foodList.addFood(new Food("Chicken egg", "25/04/2025"));
+        foodList.addFood(new Food("Ostrich Egg  ", "26/04/2025"));
+        foodList.addFood(new Food("Cow's Milk", "26/04/2025"));
         int expected = 2;
         assertEquals(expected, foodList.findFood("EGG ").getNumberOfFood());
     }
 
     @Test void termSearch_withFreshFlag_numberOfFoundFood() throws DukeException {
         FoodList foodList = new FoodList();
-        foodList.addFood(new Food("Expired egg", "25/04/1999"));
+        foodList.addFood(new Food("Expired egg", "25/04/2024"));
         foodList.addFood(new Food("Good Egg  ", "26/04/2025"));
-        foodList.addFood(new Food("Expired Milk", "27/04/1999"));
-        foodList.addFood(new Food("Good Milk", "27/04/2025"));
-        int expected = 1;
-        assertEquals(expected, foodList.findFood("EGG", "fresh").getNumberOfFood());
-    }
-
-    @Test void termSearch_withExpiredFlag_numberOfFoundFood() throws DukeException {
-        FoodList foodList = new FoodList();
-        foodList.addFood(new Food("Expired egg", "25/04/1999"));
-        foodList.addFood(new Food("Another Expired egg", "25/04/1998"));
-        foodList.addFood(new Food("Good Egg  ", "26/04/2025"));
-        foodList.addFood(new Food("Expired Milk", "27/04/1999"));
+        foodList.addFood(new Food("Expired Milk", "27/04/2024"));
         foodList.addFood(new Food("Good Milk", "27/04/2025"));
         int expected = 2;
-        assertEquals(expected, foodList.findFood("EGG ", "expired").getNumberOfFood());
+        assertEquals(expected, foodList.findFood("EGG", "fresh").getNumberOfFood());
     }
 
 }

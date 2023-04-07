@@ -7,6 +7,9 @@ ListCommand -> CommandResult
 ListCommand --> FoodList : lists out
 FoodList -> Food
 
+hide circle
+skinparam classAttributeIconSize 0
+
 abstract class Command{
     +execute(): CommandResult
 }
