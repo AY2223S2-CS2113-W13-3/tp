@@ -5,7 +5,7 @@
   + [Architecture Design Diagram](#architecture-design-diagram)
   + [UML Sequence Diagram](#uml-sequence-diagram)
 + [Implementation](#implementation)
-  + [Add feacture](#add-feature)
+  + [Add feature](#add-feature)
   + [Remove feature](#remove-feature)
   + [Find feature](#find-feature)
   + [Update feature](#update-feature)
